@@ -2,11 +2,21 @@ import express, { json } from "express";
 import cors from "cors";
 
 const app = express();
+const allowedOrigins = [
+    "https://m-nowfal.github.io",  // Correct frontend URL
+    "http://localhost:5173" // (Optional) Allow local testing
+];
+
 app.use(cors({
-    origin: "https://m-nowfal.github.io/ToDo/",
-    methods: ["GET", "POST", "PUT", "DELETE"]
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true // If sending cookies or auth headers
 }));
-// app.use(cors());
 app.use(json());
 
 let users = [];
