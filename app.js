@@ -26,8 +26,6 @@ app.post('/add-to-do', (req, res, next) => {
     const { id, time, task, completed, user } = req.body.item;
     if (toDos.length > 0) {
         toDos[users.indexOf(user)].push({ id, time, task, completed });
-    } else {
-        toDos.push([{ id, time, task, completed }]);
     }
     res.status(200).json({ toDos: req.body.item });
 });
@@ -48,6 +46,7 @@ app.post('/create-to-do-user/:user', (req, res, next) => {
     const exist = users.find(u => u == user);
     if (!exist) {
         users.push(user);
+        toDos.push([]);
         res.status(200).json({ success: true });
     } else {
         res.status(201).json({ success: false });
