@@ -2,7 +2,10 @@ import express, { json } from "express";
 import cors from "cors";
 
 const app = express();
-app.use(cors());
+app.use(cors({
+    origin: "https://m-nowfal.github.io",
+    methods: ["GET", "POST", "PUT", "DELETE"]
+}));
 app.use(json());
 
 let users = [];
