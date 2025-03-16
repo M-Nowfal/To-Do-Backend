@@ -3,9 +3,10 @@ import cors from "cors";
 
 const app = express();
 app.use(cors({
-    origin: "https://m-nowfal.github.io",
+    origin: "https://m-nowfal.github.io/ToDo/",
     methods: ["GET", "POST", "PUT", "DELETE"]
 }));
+// app.use(cors());
 app.use(json());
 
 let users = [];
