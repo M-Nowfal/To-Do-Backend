@@ -24,7 +24,7 @@ let toDos = [];
 
 app.post('/add-to-do', (req, res, next) => {
     const { id, time, task, completed, user } = req.body.item;
-    if (toDos.length > 0) {
+    if (toDos.length > 0 && users.indexOf(user) != -1) {
         toDos[users.indexOf(user)].push({ id, time, task, completed });
     }
     res.status(200).json({ toDos: req.body.item });
@@ -64,11 +64,20 @@ app.put('/toggle-to-do/:id/:userName', (req, res, next) => {
 app.get('/get-to-do-user/:user', (req, res, next) => {
     const { user } = req.params;
     const exist = users.find(u => u == user);
-    if(exist){
+    if (exist) {
         return res.status(200).json({ success: true });
-    }else{
+    } else {
         return res.status(201).json({ success: false });
     }
+});
+
+app.get('/delete-to-do-user/:user', (req, res, next) => {
+    const { user } = req.params;
+    toDos = toDos.filter((item, index) => (
+        index != users.indexOf(user)
+    ));
+    users = users.filter(u => u != user);
+    res.status(200).json({ success: true });
 });
 
 const PORT = 3000;
